@@ -17,6 +17,8 @@ trait S3RequestBuilding extends RequestBuilding {
   def signS3(accessKeyId: String, secretAccessKey: String): RequestTransformer = r => {
     val now = DateTime(currentTimeMillis)
     val sts = stringToSign(r, now)
+    println(sts)
+    println(md5(secretAccessKey.getBytes("UTF-8")))
     val signature = base64(hmacSha1(sts.getBytes("UTF-8"), secretAccessKey))
 
     val addHeaders =
