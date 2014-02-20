@@ -4,7 +4,7 @@ script: "sbt test it:test"
 env:
   global:
     - secure: "JDidK2qrIDgFV4UZfxNCn018FOLY/4b+wSBIEaPeVIldjk4Ud7HwqLqGQ46T\nHBheVVzpG2Skn9c7lh5LpwyhvyBiFFf5ouyyaYhNW84pRrSmOi0sKcKoMUHQ\nYfI1+5UsBbPD4zZ1XRYL7xQNdyrsa4Y47IBeN+IxJMRArmX4Mso="
-    - secure: "uwfEBfNJd6h9/oRStVUUOWmaryx/Ph7mMcuyFSGgpcxMLsIhqSoYbZZxrhrd\nquKjph1epzz4F9aI5seD/LXEjOziFls/z1uIcHAd7G3pB6x1OAyhj9+yFdEx\nZpqFt8MrGD9riKhICxDBfjhPolRPEucPSVZgfeEi0iQ6ECBi4Go="
+    - secure: "Z41IcQzV1Ci+ZJ41Tkrew6be4Go0nLyx9xq65VwGkpmA4qupgHzdzQxIlS1v\nq69WGBUFy8h3ojmw6Hbhb7YnnoITdNtKCwjDXRMtC/nS1nAPmy5+e0gAshVj\n5mOgo5pSzgLkWL3kKeMZ3a6sI7LsUXQl0Fod5rK2JPXA0EaINUg="
 jdk:
   - oraclejdk7
   - openjdk7
