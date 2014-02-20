@@ -15,7 +15,7 @@ It provides a [`S3`](blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Act
 this library provides the individual `spray-client` components that allow you to manually build your own requests such as the
 [`S3RequestBuilders`](blob/master/src/main/scala/com/netaporter/s3/S3RequestBuilders.scala) to sign requests and the [`S3Unmarshallers`](blob/master/src/main/scala/com/netaporter/s3/S3Unmarshallers.scala) to parse responses.
 
-For SBT add the dependency `"com.netaporter" %% "s3-spray" % "0.0.1"`
+For SBT add the dependency `"com.netaporter" %% "s3-spray" % "0.0.2"`
 
 
 Using the S3 Actor
