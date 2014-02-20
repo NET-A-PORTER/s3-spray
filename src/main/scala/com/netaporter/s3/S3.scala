@@ -63,17 +63,17 @@ class S3(transport: ActorRef, accessKeyId: String, secretAccessKey: String)
   def receive = {
     case PutBucket(bucket, location) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
-      val res = pipeline(Put(s"http://$bucket.s3.amazonaws.com")).map(x => PutBucketSuccess(bucket))
+      val res = pipeline(Put(s"https://$bucket.s3.amazonaws.com")).map(x => PutBucketSuccess(bucket))
       pipeToSender(res)
 
     case DeleteBucket(bucket) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
-      val res = pipeline(Delete(s"http://$bucket.s3.amazonaws.com")).map(x => DeleteBucketSuccess(bucket))
+      val res = pipeline(Delete(s"https://$bucket.s3.amazonaws.com")).map(x => DeleteBucketSuccess(bucket))
       pipeToSender(res)
 
     case GetBucket(bucket, prefix) =>
       val pipeline = getBucket(prefix) ~> basePipeline ~> s3Unmarshal[ListBucketResult]
-      val res = pipeline(Get(s"http://$bucket.s3.amazonaws.com"))
+      val res = pipeline(Get(s"https://$bucket.s3.amazonaws.com"))
       pipeToSender(res)
   }
 
