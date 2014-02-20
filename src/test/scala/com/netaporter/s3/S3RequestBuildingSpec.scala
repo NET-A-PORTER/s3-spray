@@ -25,4 +25,16 @@ class S3RequestBuildingSpec
     val auth = out.headers.find(_.name == "Authorization")
     auth.value.value should equal("AWS access-id:1n94fVlDK4+AyO/Dx/8Fz6VfWQM=")
   }
+
+  it should "correctly sign a GET request for bucket names with dots" in {
+    val in = HttpRequest(
+      method = GET,
+      uri = "https://products.test.s3.amazonaws.com",
+      headers = RawHeader("Date", "Tue, 18 Feb 2014 15:13:39 GMT") :: Nil
+    )
+
+    val out = signS3("access-id", "secret-access-key").apply(in)
+    val auth = out.headers.find(_.name == "Authorization")
+    auth.value.value should equal("AWS access-id:qhTefrcgoCjwk/MrCPWMS+9C6jk=")
+  }
 }

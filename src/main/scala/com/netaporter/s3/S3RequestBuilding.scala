@@ -53,11 +53,12 @@ trait S3RequestBuilding extends RequestBuilding {
       .collect { case h if h.lowercaseName.startsWith("x-amz-") => h.toString }
       .mkString("\n")
 
-    val subdomain = r.uri.authority.host.address.split('.').head
+    val hostname = r.uri.authority.host.address
+    val hostBucket = hostname.replace(".s3.amazonaws.com", "")
 
     val canonicalizedResource =
-      (if (subdomain == "s3") "" else "/" + subdomain) +
-        r.uri.path.toString + "/" +
+      (if (hostname.startsWith("s3")) "" else "/" + hostBucket) + // Bucket name in host style
+        r.uri.path.toString + "/" + // Bucket name in path style
         r.uri.query.filter { case (k, _) => paramsToSign.contains(k) }.toString
 
     r.method + "\n" +
