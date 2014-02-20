@@ -12,16 +12,10 @@ val akka = "2.2.3"
 val spray = "1.2.0"
 
 libraryDependencies ++=
-  "com.typesafe.akka" %% "akka-actor" % akka ::
-  "io.spray" % "spray-can" % spray ::
-  "io.spray" % "spray-http" % spray ::
-  "io.spray" % "spray-httpx" % spray ::
-  Nil
-
-libraryDependencies ++=
-  "io.spray" % "spray-client" % spray % "test" ::
-  "com.typesafe.akka" %% "akka-testkit" % akka % "test" ::
-  "org.scalatest" %% "scalatest" % "2.0" % "test" ::
+  "com.typesafe.akka" %% "akka-actor" % akka % "provided,test,it" ::
+  "io.spray" % "spray-client" % spray % "provided,test,it" ::
+  "com.typesafe.akka" %% "akka-testkit" % akka % "provided,test,it" ::
+  "org.scalatest" %% "scalatest" % "2.0" % "provided,test,it" ::
   Nil
 
 scalariformSettings

@@ -1,6 +1,6 @@
 ---
 language: scala
-script: "sbt test"
+script: "sbt test it:test"
 jdk:
 - oraclejdk7
 - openjdk7

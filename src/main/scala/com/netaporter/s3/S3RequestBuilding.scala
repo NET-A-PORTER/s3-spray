@@ -1,7 +1,7 @@
 package com.netaporter.s3
 
-import spray.http.{HttpRequest, DateTime}
-import spray.http.HttpHeaders.{RawHeader, Date}
+import spray.http.{ HttpRequest, DateTime }
+import spray.http.HttpHeaders.{ RawHeader, Date }
 import spray.http.HttpEntity.NonEmpty
 import java.security.MessageDigest
 import javax.crypto.spec.SecretKeySpec
@@ -15,7 +15,7 @@ trait S3RequestBuilding extends RequestBuilding {
   // RequestTransformers
 
   def signS3(accessKeyId: String, secretAccessKey: String): RequestTransformer = r => {
-    val now = DateTime(System.currentTimeMillis)
+    val now = DateTime(currentTimeMillis)
     val sts = stringToSign(r, now)
     val signature = base64(hmacSha1(sts.getBytes("UTF-8"), secretAccessKey))
 
@@ -30,7 +30,7 @@ trait S3RequestBuilding extends RequestBuilding {
   def getBucket(prefix: String): RequestTransformer =
     if (prefix.nonEmpty) addParam("prefix" -> prefix) else identity
 
-  def addParam(kv: (String,String)): RequestTransformer = r => {
+  def addParam(kv: (String, String)): RequestTransformer = r => {
     val query = kv +: r.uri.query
     r.copy(uri = r.uri withQuery query)
   }
@@ -84,4 +84,6 @@ trait S3RequestBuilding extends RequestBuilding {
     mac.init(signingKey)
     mac.doFinal(bytes)
   }
+
+  def currentTimeMillis = System.currentTimeMillis
 }
