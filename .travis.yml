@@ -1,8 +1,12 @@
 ---
 language: scala
 script: "sbt test it:test"
+env:
+  global:
+    - secure: "JDidK2qrIDgFV4UZfxNCn018FOLY/4b+wSBIEaPeVIldjk4Ud7HwqLqGQ46T\nHBheVVzpG2Skn9c7lh5LpwyhvyBiFFf5ouyyaYhNW84pRrSmOi0sKcKoMUHQ\nYfI1+5UsBbPD4zZ1XRYL7xQNdyrsa4Y47IBeN+IxJMRArmX4Mso="
+    - secure: "uwfEBfNJd6h9/oRStVUUOWmaryx/Ph7mMcuyFSGgpcxMLsIhqSoYbZZxrhrd\nquKjph1epzz4F9aI5seD/LXEjOziFls/z1uIcHAd7G3pB6x1OAyhj9+yFdEx\nZpqFt8MrGD9riKhICxDBfjhPolRPEucPSVZgfeEi0iQ6ECBi4Go="
 jdk:
-- oraclejdk7
-- openjdk7
+  - oraclejdk7
+  - openjdk7
 scala:
-- 2.10.3
+  - 2.10.3
