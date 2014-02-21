@@ -11,9 +11,9 @@ Introduction
 ------------
 
 s3-spray adds support to spray for calling the [S3 Rest API](http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketOps.html).
-It provides a [`S3`](/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` that accepts messages such as `ListObjects` and returns messages such as `ListBucketResult`. Alternatively
+It provides a [`S3`](https://github.com/NET-A-PORTER/3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` that accepts messages such as `ListObjects` and returns messages such as `ListBucketResult`. Alternatively
 this library provides the individual `spray-client` components that allow you to manually build your own requests such as the
-[`S3RequestBuilders`](/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3RequestBuilders.scala) to sign requests and the [`S3Unmarshallers`](/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3Unmarshallers.scala) to parse responses.
+[`S3RequestBuilders`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3RequestBuilders.scala) to sign requests and the [`S3Unmarshallers`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3Unmarshallers.scala) to parse responses.
 
 For SBT add the dependency `"com.netaporter" %% "s3-spray" % "0.0.3"`
 
@@ -21,7 +21,7 @@ For SBT add the dependency `"com.netaporter" %% "s3-spray" % "0.0.3"`
 Using the S3 Actor
 ------------------
 
-Instantiate the [`S3`](/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` with your S3 access key ID and secert access key like so:
+Instantiate the [`S3`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` with your S3 access key ID and secert access key like so:
 
 ```scala
 val s3 = context.actorOf(Props(classOf[S3], IO(Http), accessKeyId, secretAccessKey))
@@ -44,7 +44,7 @@ Using the S3 Request Builders
 -----------------------------
 
 If you prefer not to use the `S3` actor and would like to manually build the HttpRequests you send to S3, you can either
-import or mixin [`S3RequestBuilders`](/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3RequestBuilders.scala) to get the `signS3` `RequestTransformer`. This can then be inserted into your
+import or mixin [`S3RequestBuilders`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3RequestBuilders.scala) to get the `signS3` `RequestTransformer`. This can then be inserted into your
 spray-client pipeline to sign the request with your credentials like so:
 
 ```scala
