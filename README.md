@@ -21,7 +21,7 @@ For SBT add the dependency `"com.netaporter" %% "s3-spray" % "0.0.5"`
 Using the S3 Actor
 ------------------
 
-Instantiate the [`S3`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` with your S3 access key ID and secert access key like so:
+Instantiate the [`S3`](https://github.com/NET-A-PORTER/s3-spray/blob/master/src/main/scala/com/netaporter/s3/S3.scala) `Actor` with your S3 access key ID and secret access key like so:
 
 ```scala
 val s3 = context.actorOf(Props(classOf[S3], IO(Http), accessKeyId, secretAccessKey))
