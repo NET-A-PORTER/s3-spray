@@ -56,6 +56,26 @@ val pipeline = (
 val res = pipeline(Get("http://mybucket.s3.amazonaws.com"))
 ```
 
+Monitoring
+----------
+
+For monitoring purposes, the S3 Actor can be configured to publish all the `HttpRequest`s and `HttpResponse`s it makes to the Akka `EventStream`.
+To enable this, add the following configuration to your `application.conf`:
+
+    s3 {
+      publish-event-stream = on
+    }
+
+And then in your Actor, subscribe to the events like so:
+
+    context.system.eventStream.subscribe(self, classOf[S3Request])
+    context.system.eventStream.subscribe(self, classOf[S3Response])
+
+    def receive = {
+      case S3Request(req)  => ...
+      case S3Response(res) => ...
+    }
+
 Running the unit tests
 ---------------------
 
