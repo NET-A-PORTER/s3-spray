@@ -1,6 +1,6 @@
 ---
 language: scala
-script: "sbt test it:test"
+script: "sbt test"
 env:
   global:
     - secure: "JDidK2qrIDgFV4UZfxNCn018FOLY/4b+wSBIEaPeVIldjk4Ud7HwqLqGQ46T\nHBheVVzpG2Skn9c7lh5LpwyhvyBiFFf5ouyyaYhNW84pRrSmOi0sKcKoMUHQ\nYfI1+5UsBbPD4zZ1XRYL7xQNdyrsa4Y47IBeN+IxJMRArmX4Mso="

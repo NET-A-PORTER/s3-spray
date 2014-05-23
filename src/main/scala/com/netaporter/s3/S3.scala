@@ -2,21 +2,21 @@ package com.netaporter.s3
 
 import akka.actor.{ ActorRef, ActorLogging, Actor }
 import akka.util.Timeout
-import com.netaporter.s3.S3.requests.{ DeleteBucket, PutBucket, GetBucket }
+import com.netaporter.s3.S3.requests._
 import com.netaporter.s3.S3.responses._
 import scala.util.control.NoStackTrace
 import scala.concurrent.Future
-import scala.util.{ Failure, Success }
 import spray.client.pipelining._
 import scala.concurrent.duration._
-import spray.http.{ HttpResponse, HttpRequest }
 import spray.http.HttpRequest
 import com.netaporter.s3.S3.requests.GetBucket
 import com.netaporter.s3.S3.responses.DeleteBucketSuccess
 import scala.util.Failure
 import com.netaporter.s3.S3.responses.PutBucketSuccess
 import com.netaporter.s3.S3.requests.DeleteBucket
+import com.netaporter.s3.S3.responses.S3Response
 import spray.http.HttpResponse
+import com.netaporter.s3.S3.responses.S3Request
 import scala.util.Success
 import com.netaporter.s3.S3.responses.ListBucketResult
 import com.netaporter.s3.S3.requests.PutBucket
@@ -38,6 +38,8 @@ object S3 {
     val APSouthEast2 = Location("ap-southeast-2")
     val APNorthEast1 = Location("ap-northeast-1")
     val SAEast1 = Location("sa-east-1")
+
+    case class GetObject(bucket: String, objectName: String)
   }
 
   object responses {
@@ -50,6 +52,8 @@ object S3 {
 
     case class DeleteBucketSuccess(bucket: String)
     case class PutBucketSuccess(bucket: String)
+
+    case class GetObjectResult(data: Seq[Byte])
 
     case class S3Request(http: HttpRequest)
     case class S3Response(http: HttpResponse)
@@ -90,17 +94,22 @@ class S3(transport: ActorRef, accessKeyId: String, secretAccessKey: String)
   def receive = {
     case PutBucket(bucket, location) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
-      val res = pipeline(Put(s"$scheme://$bucket.s3.amazonaws.com")).map(x => PutBucketSuccess(bucket))
+      val res = pipeline(Put(s"$scheme://$bucket.s3.amazonaws.com/")).map(x => PutBucketSuccess(bucket))
       pipeToSender(res)
 
     case DeleteBucket(bucket) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
-      val res = pipeline(Delete(s"$scheme://$bucket.s3.amazonaws.com")).map(x => DeleteBucketSuccess(bucket))
+      val res = pipeline(Delete(s"$scheme://$bucket.s3.amazonaws.com/")).map(x => DeleteBucketSuccess(bucket))
       pipeToSender(res)
 
     case GetBucket(bucket, prefix) =>
       val pipeline = getBucket(prefix) ~> basePipeline ~> s3Unmarshal[ListBucketResult]
-      val res = pipeline(Get(s"$scheme://$bucket.s3.amazonaws.com"))
+      val res = pipeline(Get(s"$scheme://$bucket.s3.amazonaws.com/"))
+      pipeToSender(res)
+
+    case GetObject(bucket, objectName) =>
+      val pipeline = basePipeline ~> s3Unmarshal[GetObjectResult]
+      val res = pipeline(Get(s"$scheme://$bucket.s3.amazonaws.com/$objectName"))
       pipeToSender(res)
   }
 

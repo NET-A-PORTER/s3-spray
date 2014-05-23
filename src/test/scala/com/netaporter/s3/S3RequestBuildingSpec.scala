@@ -17,7 +17,7 @@ class S3RequestBuildingSpec
   "signS3" should "correctly sign a GET request" in {
     val in = HttpRequest(
       method = GET,
-      uri = "https://s3.amazonaws.com/products-test",
+      uri = "https://s3.amazonaws.com/products-test/",
       headers = RawHeader("Date", "Tue, 18 Feb 2014 15:13:39 GMT") :: Nil
     )
 
@@ -29,7 +29,7 @@ class S3RequestBuildingSpec
   it should "correctly sign a GET request for bucket names with dots" in {
     val in = HttpRequest(
       method = GET,
-      uri = "https://products.test.s3.amazonaws.com",
+      uri = "https://products.test.s3.amazonaws.com/",
       headers = RawHeader("Date", "Tue, 18 Feb 2014 15:13:39 GMT") :: Nil
     )
 

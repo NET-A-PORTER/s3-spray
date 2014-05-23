@@ -7,8 +7,7 @@ import spray.http.StatusCodes._
 import spray.httpx.{ ResponseTransformation, PipelineException }
 import com.netaporter.s3.S3.responses
 import spray.http.HttpResponse
-import com.netaporter.s3.S3.responses.ListBucketResult
-import com.netaporter.s3.S3.responses.Content
+import com.netaporter.s3.S3.responses.{ GetObjectResult, ListBucketResult, Content }
 import scala.Some
 
 object S3Unmarshallers extends S3Unmarshallers
@@ -37,6 +36,11 @@ trait S3Unmarshallers
       }
       val contents = (xml \\ "Key") map (k => Content(k.text))
       ListBucketResult(name, contents)
+    }
+
+  implicit val GetObjectUnmarshaller =
+    new Unmarshaller[GetObjectResult] {
+      def apply(entity: HttpEntity) = Right(GetObjectResult(entity.data.toByteArray))
     }
 
   def s3Unmarshaller[T](f: NodeSeq => T): Unmarshaller[T] =

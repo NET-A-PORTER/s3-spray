@@ -58,7 +58,7 @@ trait S3RequestBuilding extends RequestBuilding {
 
     val canonicalizedResource =
       (if (hostname.startsWith("s3")) "" else "/" + hostBucket) + // Bucket name in host style
-        r.uri.path.toString + "/" + // Bucket name in path style
+        r.uri.path.toString + // Bucket name in path style
         r.uri.query.filter { case (k, _) => paramsToSign.contains(k) }.toString
 
     r.method + "\n" +
