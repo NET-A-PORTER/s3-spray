@@ -5,21 +5,19 @@ import akka.util.Timeout
 import com.netaporter.s3.S3.requests._
 import com.netaporter.s3.S3.responses._
 import scala.util.control.NoStackTrace
-import scala.concurrent.Future
 import spray.client.pipelining._
 import scala.concurrent.duration._
 import spray.http.HttpRequest
 import com.netaporter.s3.S3.requests.GetBucket
 import com.netaporter.s3.S3.responses.DeleteBucketSuccess
-import scala.util.Failure
 import com.netaporter.s3.S3.responses.PutBucketSuccess
 import com.netaporter.s3.S3.requests.DeleteBucket
 import com.netaporter.s3.S3.responses.S3Response
 import spray.http.HttpResponse
 import com.netaporter.s3.S3.responses.S3Request
-import scala.util.Success
 import com.netaporter.s3.S3.responses.ListBucketResult
 import com.netaporter.s3.S3.requests.PutBucket
+import akka.pattern.pipe
 
 object S3 {
   object requests {
@@ -95,30 +93,21 @@ class S3(transport: ActorRef, accessKeyId: String, secretAccessKey: String)
     case PutBucket(bucket, location) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
       val res = pipeline(Put(s"$scheme://$bucket.s3.amazonaws.com/")).map(x => PutBucketSuccess(bucket))
-      pipeToSender(res)
+      res pipeTo sender
 
     case DeleteBucket(bucket) =>
       val pipeline = basePipeline ~> s3Unmarshal[Unit]
       val res = pipeline(Delete(s"$scheme://$bucket.s3.amazonaws.com/")).map(x => DeleteBucketSuccess(bucket))
-      pipeToSender(res)
+      res pipeTo sender
 
     case GetBucket(bucket, prefix) =>
       val pipeline = getBucket(prefix) ~> basePipeline ~> s3Unmarshal[ListBucketResult]
       val res = pipeline(Get(s"$scheme://$bucket.s3.amazonaws.com/"))
-      pipeToSender(res)
+      res pipeTo sender
 
     case GetObject(bucket, objectName) =>
       val pipeline = basePipeline ~> s3Unmarshal[GetObjectResult]
       val res = pipeline(Get(s"$scheme://$bucket.s3.amazonaws.com/$objectName"))
-      pipeToSender(res)
-  }
-
-  def pipeToSender[T](f: Future[T]) = {
-    val replyTo = sender
-    f onComplete {
-      case Success(msg) => replyTo ! msg
-      case Failure(fail: S3Failure) => replyTo ! fail
-      case fail => replyTo ! fail
-    }
+      res pipeTo sender
   }
 }
