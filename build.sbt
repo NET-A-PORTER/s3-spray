@@ -2,14 +2,14 @@ organization := "com.netaporter"
 
 version := "0.0.8"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
 name := "s3-spray"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
 
-val akka = "2.2.3"
-val spray = "1.2.0"
+val akka = "2.3.4"
+val spray = "1.3.1"
 
 libraryDependencies ++=
   "com.typesafe.akka" %% "akka-actor" % akka % "provided,test,it" ::
