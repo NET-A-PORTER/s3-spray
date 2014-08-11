@@ -4,6 +4,8 @@ version := "0.0.9"
 
 scalaVersion := "2.10.4"
 
+crossScalaVersions := Seq("2.10.4", "2.11.2")
+
 name := "s3-spray"
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8")
@@ -13,9 +15,9 @@ val spray = "1.3.1"
 
 libraryDependencies ++=
   "com.typesafe.akka" %% "akka-actor" % akka % "provided,test,it" ::
-  "io.spray" % "spray-client" % spray % "provided,test,it" ::
+  "io.spray" %% "spray-client" % spray % "provided,test,it" ::
   "com.typesafe.akka" %% "akka-testkit" % akka % "provided,test,it" ::
-  "org.scalatest" %% "scalatest" % "2.0" % "provided,test,it" ::
+  "org.scalatest" %% "scalatest" % "2.2.1" % "provided,test,it" ::
   Nil
 
 scalariformSettings
