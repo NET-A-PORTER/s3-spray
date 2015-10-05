@@ -66,7 +66,7 @@ class S3(transport: ActorRef, accessKeyId: String, secretAccessKey: String)
   import context.dispatcher
 
   implicit val _timeout = Timeout(
-    context.system.settings.config.getMilliseconds("s3.timeout").toLong.millis
+    context.system.settings.config.getDuration("s3.timeout", MILLISECONDS).toLong.millis
   )
 
   val scheme = context.system.settings.config.getString("s3.scheme")
